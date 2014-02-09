@@ -27,15 +27,15 @@
 {
     [super viewDidLoad];
     
-    NSDictionary *blogPost1 = [NSDictionary dictionaryWithObjectsAndKeys:@"The Missing Widget in Andriod", @"title", @"Ben Jakuben", @"author",nil];
+    NSURL *blogURL = [NSURL URLWithString:@"https://news.layervault.com/stories?format=json"];
     
-    NSDictionary *blogPost2 = [NSDictionary dictionaryWithObjectsAndKeys:@"Apple", @"title", @"Collin Hartigan", @"author",nil];
+    NSData *jsonData = [NSData dataWithContentsOfURL:blogURL];
     
-    NSDictionary *blogPost3 = [NSDictionary dictionaryWithObjectsAndKeys:@"Tool Time", @"title", @"John Jones", @"author",nil];
-    
-  
+    NSError *error = nil;
 
-    self.blogPosts = [NSArray arrayWithObjects: blogPost1, blogPost2, blogPost3, nil];
+    NSDictionary *dataDictionary = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error: &error];
+
+    self.blogPosts = [dataDictionary objectForKey:@"stories"];
 }
 
 - (void)didReceiveMemoryWarning
