@@ -26,8 +26,16 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    NSDictionary *blogPost1 = [NSDictionary dictionaryWithObjectsAndKeys:@"The Missing Widget in Andriod", @"title", @"Ben Jakuben", @"author",nil];
+    
+    NSDictionary *blogPost2 = [NSDictionary dictionaryWithObjectsAndKeys:@"Apple", @"title", @"Collin Hartigan", @"author",nil];
+    
+    NSDictionary *blogPost3 = [NSDictionary dictionaryWithObjectsAndKeys:@"Tool Time", @"title", @"John Jones", @"author",nil];
+    
+  
 
-    self.titles = [NSArray arrayWithObjects: @"Hello", @"Cool", @"You're awesome", nil];
+    self.blogPosts = [NSArray arrayWithObjects: blogPost1, blogPost2, blogPost3, nil];
 }
 
 - (void)didReceiveMemoryWarning
@@ -49,7 +57,7 @@
 {
 
     // Return the number of rows in the section.
-    return self.titles.count;
+    return self.blogPosts.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -57,7 +65,10 @@
     static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
-    cell.textLabel.text = [self.titles objectAtIndex: indexPath.row];
+    NSDictionary *blogPost = [self.blogPosts objectAtIndex:indexPath.row];
+    
+    cell.textLabel.text = [blogPost valueForKey: @"title"];
+    cell.detailTextLabel.text = [blogPost valueForKey:@"author"];
     
     return cell;
 }
