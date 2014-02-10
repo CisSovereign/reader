@@ -9,7 +9,10 @@
 #import "SRTableViewController.h"
 #import "BlogPost.h"
 
-@interface SRTableViewController ()
+
+@interface SRTableViewController () {
+    UIRefreshControl *refreshControl;
+}
 
 @end
 
@@ -28,6 +31,7 @@
 {
     [super viewDidLoad];
     
+    
     NSURL *blogURL = [NSURL URLWithString:@"https://news.layervault.com/stories?format=json"];
     
     NSData *jsonData = [NSData dataWithContentsOfURL:blogURL];
@@ -43,10 +47,21 @@
     for (NSDictionary *bpDictionary in blogPostsArray) {
         BlogPost *blogPost = [BlogPost blogPostWithTitle:[bpDictionary objectForKey:@"title"]];
         blogPost.author = [bpDictionary objectForKey: @"submitter_display_name"];
+        blogPost.date = [bpDictionary objectForKey: @"created_at"];
         [self.blogPosts addObject:blogPost];
     }
-
     
+    refreshControl = [[UIRefreshControl alloc] init];
+    [refreshControl addTarget:self action:@selector(refreshTableView) forControlEvents:UIControlEventValueChanged];
+    
+    [self.tableView addSubview:refreshControl];
+    
+}
+
+- (void)refreshTableView
+{
+    [self.tableView reloadData];
+    [refreshControl endRefreshing];
 }
 
 - (void)didReceiveMemoryWarning
@@ -79,7 +94,9 @@
     BlogPost *blogPost = [self.blogPosts objectAtIndex:indexPath.row];
     
     cell.textLabel.text = blogPost.title;
-    cell.detailTextLabel.text = blogPost.author;
+    cell.textLabel.font = [UIFont fontWithName:@"ProximaNova-Regular" size:14];
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ %@", blogPost.author, blogPost.date];
+    cell.detailTextLabel.font = [UIFont fontWithName:@"ProximaNova-Light" size:10];
     
     return cell;
 }
