@@ -24,5 +24,14 @@
     return [[self alloc] initWithTitle:title];
 }
 
+- (NSString *) formattedDate {
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-ddTHH:mm:ssZ"];
+    NSDate *tempDate = [dateFormatter dateFromString:self.date];
+    
+    [dateFormatter setDateFormat:@"EE MMM, dd"];
+    return  [dateFormatter stringFromDate:tempDate];
+}
+
 
 @end
