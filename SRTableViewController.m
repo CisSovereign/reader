@@ -32,6 +32,13 @@
 {
     [super viewDidLoad];
     
+    self.navigationItem.title = @"Designer News";
+    
+    NSDictionary *attributesfont = [NSDictionary dictionaryWithObjectsAndKeys:[UIFont fontWithName:@"ProximaNova-Regular" size:24], NSFontAttributeName,
+                                    [UIColor colorWithRed:45.0/255.0 green:114.0/255.0 blue:217.0/255.0 alpha:1], NSForegroundColorAttributeName, nil];
+    
+    self.navigationController.navigationBar.titleTextAttributes = attributesfont;
+    
     
     NSURL *blogURL = [NSURL URLWithString:@"https://news.layervault.com/stories?format=json"];
     
